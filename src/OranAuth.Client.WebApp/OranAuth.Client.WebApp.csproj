@@ -11,8 +11,8 @@
     <None Remove="node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OranAuth.IoC\OranAuth.IoC.csproj" />
     <ProjectReference Include="..\OranAuth.Services\OranAuth.Services.csproj" />
-    <ProjectReference Include="..\OranAuth.IoCConfig\OranAuth.IoCConfig.csproj" />
     <ProjectReference Include="..\OranAuth.Common\OranAuth.Common.csproj" />
     <ProjectReference Include="..\OranAuth.Domain\OranAuth.Domain.csproj" />
     <ProjectReference Include="..\OranAuth.Infrastructure\OranAuth.Infrastructure.csproj" />

@@ -16,7 +16,7 @@ using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 using OranAuth.Services;
 
-namespace OranAuth.IoCConfig
+namespace OranAuth.IoC
 {
     public static class ConfigureServicesExtensions
     {

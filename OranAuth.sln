@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.Services", "src\Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.Domain", "src\OranAuth.Domain\OranAuth.Domain.csproj", "{30DE5FD3-C5F9-47CD-911A-54A277FBE4DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.IoCConfig", "src\OranAuth.IoCConfig\OranAuth.IoCConfig.csproj", "{88101086-0235-437B-958A-CE4FD95944C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.IoC", "src\OranAuth.IoC\OranAuth.IoC.csproj", "{88101086-0235-437B-958A-CE4FD95944C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

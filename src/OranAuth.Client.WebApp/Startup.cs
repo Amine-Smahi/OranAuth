@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using OranAuth.IoCConfig;
+using OranAuth.IoC;
 using OranAuth.Services;
 
 namespace OranAuth.Client.WebApp
