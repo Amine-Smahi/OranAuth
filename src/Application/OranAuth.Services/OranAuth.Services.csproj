@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <NoWarn>RCS1090</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\OranAuth.DomainClasses\OranAuth.DomainClasses.csproj" />
+    <ProjectReference Include="..\..\Common\OranAuth.Common\OranAuth.Common.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\OranAuth.DataLayer\OranAuth.DataLayer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
+  </ItemGroup>
+</Project>
