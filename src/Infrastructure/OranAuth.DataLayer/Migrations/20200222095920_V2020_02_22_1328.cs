@@ -8,21 +8,18 @@ namespace OranAuth.DataLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
+                "Roles",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 450, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Roles", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
+                "Users",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -33,38 +30,35 @@ namespace OranAuth.DataLayer.Migrations
                     LastLoggedIn = table.Column<DateTimeOffset>(nullable: true),
                     SerialNumber = table.Column<string>(maxLength: 450, nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
+                "UserRoles",
+                table => new
                 {
                     UserId = table.Column<int>(nullable: false),
                     RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_UserRoles", x => new {x.UserId, x.RoleId});
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
+                        "FK_UserRoles_Roles_RoleId",
+                        x => x.RoleId,
+                        "Roles",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_UserRoles_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTokens",
-                columns: table => new
+                "UserTokens",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -79,54 +73,54 @@ namespace OranAuth.DataLayer.Migrations
                 {
                     table.PrimaryKey("PK_UserTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserTokens_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_UserTokens_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_Name",
-                table: "Roles",
-                column: "Name",
+                "IX_Roles_Name",
+                "Roles",
+                "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
+                "IX_UserRoles_RoleId",
+                "UserRoles",
+                "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
+                "IX_UserRoles_UserId",
+                "UserRoles",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Username",
-                table: "Users",
-                column: "Username",
+                "IX_Users_Username",
+                "Users",
+                "Username",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTokens_UserId",
-                table: "UserTokens",
-                column: "UserId");
+                "IX_UserTokens_UserId",
+                "UserTokens",
+                "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "UserTokens");
+                "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                "Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                "Users");
         }
     }
 }

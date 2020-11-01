@@ -1,23 +1,23 @@
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
 using OranAuth.DomainClasses;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace OranAuth.Services
 {
     public interface IDbInitializerService
     {
         /// <summary>
-        /// Applies any pending migrations for the context to the database.
-        /// Will create the database if it does not already exist.
+        ///     Applies any pending migrations for the context to the database.
+        ///     Will create the database if it does not already exist.
         /// </summary>
         void Initialize();
 
         /// <summary>
-        /// Adds some default values to the Db
+        ///     Adds some default values to the Db
         /// </summary>
         void SeedData();
     }
@@ -52,8 +52,8 @@ namespace OranAuth.Services
                 using (var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>())
                 {
                     // Add default roles
-                    var adminRole = new Role { Name = CustomRoles.Admin };
-                    var userRole = new Role { Name = CustomRoles.User };
+                    var adminRole = new Role {Name = CustomRoles.Admin};
+                    var userRole = new Role {Name = CustomRoles.User};
                     if (!context.Roles.Any())
                     {
                         context.Add(adminRole);
@@ -76,8 +76,8 @@ namespace OranAuth.Services
                         context.Add(adminUser);
                         context.SaveChanges();
 
-                        context.Add(new UserRole { Role = adminRole, User = adminUser });
-                        context.Add(new UserRole { Role = userRole, User = adminUser });
+                        context.Add(new UserRole {Role = adminRole, User = adminUser});
+                        context.Add(new UserRole {Role = userRole, User = adminUser});
                         context.SaveChanges();
                     }
                 }

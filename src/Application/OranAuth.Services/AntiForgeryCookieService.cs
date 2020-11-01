@@ -17,10 +17,10 @@ namespace OranAuth.Services
     public class AntiForgeryCookieService : IAntiForgeryCookieService
     {
         private const string XsrfTokenKey = "XSRF-TOKEN";
-
-        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IAntiforgery _antiforgery;
         private readonly IOptions<AntiforgeryOptions> _antiforgeryOptions;
+
+        private readonly IHttpContextAccessor _contextAccessor;
 
         public AntiForgeryCookieService(
             IHttpContextAccessor contextAccessor,
@@ -43,12 +43,12 @@ namespace OranAuth.Services
             httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme));
             var tokens = _antiforgery.GetAndStoreTokens(httpContext);
             httpContext.Response.Cookies.Append(
-                  key: XsrfTokenKey,
-                  value: tokens.RequestToken,
-                  options: new CookieOptions
-                  {
-                      HttpOnly = false // Now JavaScript is able to read the cookie
-                  });
+                XsrfTokenKey,
+                tokens.RequestToken,
+                new CookieOptions
+                {
+                    HttpOnly = false // Now JavaScript is able to read the cookie
+                });
         }
 
         public void DeleteAntiForgeryCookies()

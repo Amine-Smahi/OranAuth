@@ -1,15 +1,15 @@
 ﻿using System.IO;
 using System.Text.Json;
-using OranAuth.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using OranAuth.IoCConfig;
+using OranAuth.Services;
 
 namespace OranAuth.WebApp
 {
@@ -44,10 +44,7 @@ namespace OranAuth.WebApp
                 dbInitializer.SeedData();
             }
 
-            if (!env.IsDevelopment())
-            {
-                app.UseHsts();
-            }
+            if (!env.IsDevelopment()) app.UseHsts();
             app.UseHttpsRedirection();
 
             app.UseExceptionHandler(appBuilder =>
@@ -97,8 +94,8 @@ namespace OranAuth.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
 
             // catch-all handler for HTML5 client routes - serve index.html

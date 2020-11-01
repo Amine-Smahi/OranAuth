@@ -16,12 +16,11 @@ namespace OranAuth.Common
                 directoryInfo = directoryInfo.Parent;
                 var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo.FullName));
                 if (projectDirectoryInfo.Exists
-                    && new FileInfo(Path.Combine(projectDirectoryInfo.FullName, projectName, $"{projectName}.csproj")).Exists)
-                {
+                    && new FileInfo(Path.Combine(projectDirectoryInfo.FullName, projectName, $"{projectName}.csproj"))
+                        .Exists)
                     return Path.Combine(projectDirectoryInfo.FullName, projectName);
-                }
-            }
-            while (directoryInfo.Parent != null);
+            } while (directoryInfo.Parent != null);
+
             throw new Exception($"Project root could not be located using the application root {applicationBasePath}.");
         }
     }

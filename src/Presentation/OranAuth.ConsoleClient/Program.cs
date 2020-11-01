@@ -13,11 +13,9 @@ namespace OranAuth.ConsoleClient
 
     public class Token
     {
-        [JsonProperty("access_token")]
-        public string AccessToken { get; set; }
+        [JsonProperty("access_token")] public string AccessToken { get; set; }
 
-        [JsonProperty("refresh_token")]
-        public string RefreshToken { get; set; }
+        [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
     }
 
     public class User
@@ -26,7 +24,7 @@ namespace OranAuth.ConsoleClient
         public string Password { get; set; }
     }
 
-    class Program
+    internal class Program
     {
         private const string BaseAddress = "https://localhost:5001/";
 
@@ -36,6 +34,7 @@ namespace OranAuth.ConsoleClient
             UseDefaultCredentials = true,
             CookieContainer = new CookieContainer()
         };
+
         private static readonly HttpClient _httpClient = new HttpClient(_httpClientHandler)
         {
             BaseAddress = new Uri(BaseAddress)
@@ -44,10 +43,10 @@ namespace OranAuth.ConsoleClient
         public static async Task Main(string[] args)
         {
             var (token, appCookies) = await LoginAsync(
-                requestUri: "/api/account/login",
-                username: "Vahid",
-                password: "1234");
-            await CallProtectedApiAsync(requestUri: "/api/MyProtectedApi", token: token);
+                "/api/account/login",
+                "Vahid",
+                "1234");
+            await CallProtectedApiAsync("/api/MyProtectedApi", token);
             var newToken = await RefreshTokenAsync("/api/account/RefreshToken", token, appCookies);
         }
 
@@ -64,17 +63,20 @@ namespace OranAuth.ConsoleClient
                 Console.WriteLine($"Value: {cookie.Value}");
                 appCookies.Add(cookie.Name, cookie.Value);
             }
+
             return appCookies;
         }
 
-        private static async Task<(Token Token, Dictionary<string, string> AppCookies)> LoginAsync(string requestUri, string username, string password)
+        private static async Task<(Token Token, Dictionary<string, string> AppCookies)> LoginAsync(string requestUri,
+            string username, string password)
         {
             Console.WriteLine("\nLogin:");
 
-            var response = await _httpClient.PostAsJsonAsync(requestUri, new User { Username = username, Password = password });
+            var response =
+                await _httpClient.PostAsJsonAsync(requestUri, new User {Username = username, Password = password});
             response.EnsureSuccessStatusCode();
 
-            var token = await response.Content.ReadAsAsync<Token>(new[] { new JsonMediaTypeFormatter() });
+            var token = await response.Content.ReadAsAsync<Token>(new[] {new JsonMediaTypeFormatter()});
             Console.WriteLine($"Response    : {response}");
             Console.WriteLine($"AccessToken : {token.AccessToken}");
             Console.WriteLine($"RefreshToken: {token.RefreshToken}");
@@ -83,21 +85,21 @@ namespace OranAuth.ConsoleClient
             return (token, appCookies);
         }
 
-        private static async Task<Token> RefreshTokenAsync(string requestUri, Token token, Dictionary<string, string> appCookies)
+        private static async Task<Token> RefreshTokenAsync(string requestUri, Token token,
+            Dictionary<string, string> appCookies)
         {
             Console.WriteLine("\nRefreshToken:");
 
             if (!_httpClient.DefaultRequestHeaders.Contains("X-XSRF-TOKEN"))
-            {
                 // this is necessary for [AutoValidateAntiforgeryTokenAttribute] and all of the 'POST' requests
                 _httpClient.DefaultRequestHeaders.Add("X-XSRF-TOKEN", appCookies["XSRF-TOKEN"]);
-            }
             // this is necessary to populate the this.HttpContext.User object automatically
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-            var response = await _httpClient.PostAsJsonAsync(requestUri, new { refreshToken = token.RefreshToken });
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token.AccessToken);
+            var response = await _httpClient.PostAsJsonAsync(requestUri, new {refreshToken = token.RefreshToken});
             response.EnsureSuccessStatusCode();
 
-            var newToken = await response.Content.ReadAsAsync<Token>(new[] { new JsonMediaTypeFormatter() });
+            var newToken = await response.Content.ReadAsAsync<Token>(new[] {new JsonMediaTypeFormatter()});
             Console.WriteLine($"Response    : {response}");
             Console.WriteLine($"New AccessToken : {newToken.AccessToken}");
             Console.WriteLine($"New RefreshToken: {newToken.RefreshToken}");
@@ -107,7 +109,8 @@ namespace OranAuth.ConsoleClient
         private static async Task CallProtectedApiAsync(string requestUri, Token token)
         {
             Console.WriteLine("\nCall ProtectedApi:");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token.AccessToken);
             var response = await _httpClient.GetAsync(requestUri);
             var message = await response.Content.ReadAsStringAsync();
             Console.WriteLine("URL response: " + message);

@@ -51,7 +51,7 @@ namespace OranAuth.IntegrationTests
             // Assert
             var responseString = await response.Content.ReadAsStringAsync();
             responseString.Should().NotBeNullOrEmpty();
-            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            var options = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
             var apiResponse = JsonSerializer.Deserialize<MyProtectedApiResponse>(responseString, options);
             apiResponse.Title.Should().NotBeNullOrEmpty();
             apiResponse.Title.Should().Be("Hello from My Protected Controller! [Authorize]");
@@ -60,7 +60,7 @@ namespace OranAuth.IntegrationTests
         private static async Task<Token> doLoginAsync(HttpClient client)
         {
             const string loginUrl = "/api/account/login";
-            var user = new { Username = "Vahid", Password = "1234" };
+            var user = new {Username = "Vahid", Password = "1234"};
             var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Post, loginUrl)
             {
                 Content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json")

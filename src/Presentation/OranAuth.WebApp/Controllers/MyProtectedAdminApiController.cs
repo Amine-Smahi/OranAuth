@@ -1,11 +1,11 @@
+using System.Linq;
 using System.Security.Claims;
-using OranAuth.Services;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OranAuth.Common;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
-using System.Linq;
+using OranAuth.Services;
 
 namespace OranAuth.WebApp.Controllers
 {
@@ -24,7 +24,7 @@ namespace OranAuth.WebApp.Controllers
 
         public async Task<IActionResult> Get()
         {
-            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var claimsIdentity = User.Identity as ClaimsIdentity;
             var userDataClaim = claimsIdentity.FindFirst(ClaimTypes.UserData);
             var userId = userDataClaim.Value;
 
@@ -32,7 +32,7 @@ namespace OranAuth.WebApp.Controllers
             {
                 Id = 1,
                 Title = "Hello from My Protected Admin Api Controller! [Authorize(Policy = CustomRoles.Admin)]",
-                Username = this.User.Identity.Name,
+                Username = User.Identity.Name,
                 UserData = userId,
                 TokenSerialNumber = await _usersService.GetSerialNumberAsync(int.Parse(userId)),
                 Roles = claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList()

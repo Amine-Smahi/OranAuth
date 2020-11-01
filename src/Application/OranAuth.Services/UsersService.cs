@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
 using OranAuth.DomainClasses;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace OranAuth.Services
 {
@@ -22,10 +22,10 @@ namespace OranAuth.Services
 
     public class UsersService : IUsersService
     {
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly ISecurityService _securityService;
         private readonly IUnitOfWork _uow;
         private readonly DbSet<User> _users;
-        private readonly ISecurityService _securityService;
-        private readonly IHttpContextAccessor _contextAccessor;
 
         public UsersService(
             IUnitOfWork uow,
@@ -69,11 +69,9 @@ namespace OranAuth.Services
                 var updateLastActivityDate = TimeSpan.FromMinutes(2);
                 var currentUtc = DateTimeOffset.UtcNow;
                 var timeElapsed = currentUtc.Subtract(user.LastLoggedIn.Value);
-                if (timeElapsed < updateLastActivityDate)
-                {
-                    return;
-                }
+                if (timeElapsed < updateLastActivityDate) return;
             }
+
             user.LastLoggedIn = DateTimeOffset.UtcNow;
             await _uow.SaveChangesAsync();
         }
@@ -92,13 +90,11 @@ namespace OranAuth.Services
             return FindUserAsync(userId);
         }
 
-        public async Task<(bool Succeeded, string Error)> ChangePasswordAsync(User user, string currentPassword, string newPassword)
+        public async Task<(bool Succeeded, string Error)> ChangePasswordAsync(User user, string currentPassword,
+            string newPassword)
         {
             var currentPasswordHash = _securityService.GetSha256Hash(currentPassword);
-            if (user.Password != currentPasswordHash)
-            {
-                return (false, "Current password is wrong.");
-            }
+            if (user.Password != currentPasswordHash) return (false, "Current password is wrong.");
 
             user.Password = _securityService.GetSha256Hash(newPassword);
             // user.SerialNumber = Guid.NewGuid().ToString("N"); // To force other logins to expire.

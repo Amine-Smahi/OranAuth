@@ -15,7 +15,7 @@ namespace OranAuth.WebApp.Controllers
             {
                 Id = 1,
                 Title = "Hello from My Protected Controller! [Authorize]",
-                Username = this.User.Identity.Name
+                Username = User.Identity.Name
             });
         }
     }

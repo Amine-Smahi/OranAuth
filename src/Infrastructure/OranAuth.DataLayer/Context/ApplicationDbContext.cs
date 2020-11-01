@@ -1,12 +1,13 @@
-using OranAuth.DomainClasses;
 using Microsoft.EntityFrameworkCore;
+using OranAuth.DomainClasses;
 
 namespace OranAuth.DataLayer.Context
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
-        { }
+        {
+        }
 
         public virtual DbSet<User> Users { set; get; }
         public virtual DbSet<Role> Roles { set; get; }
@@ -35,7 +36,7 @@ namespace OranAuth.DataLayer.Context
 
             builder.Entity<UserRole>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                entity.HasKey(e => new {e.UserId, e.RoleId});
                 entity.HasIndex(e => e.UserId);
                 entity.HasIndex(e => e.RoleId);
                 entity.Property(e => e.UserId);
@@ -47,8 +48,8 @@ namespace OranAuth.DataLayer.Context
             builder.Entity<UserToken>(entity =>
             {
                 entity.HasOne(ut => ut.User)
-                      .WithMany(u => u.UserTokens)
-                      .HasForeignKey(ut => ut.UserId);
+                    .WithMany(u => u.UserTokens)
+                    .HasForeignKey(ut => ut.UserId);
 
                 entity.Property(ut => ut.RefreshTokenIdHash).HasMaxLength(450).IsRequired();
                 entity.Property(ut => ut.RefreshTokenIdHashSource).HasMaxLength(450);

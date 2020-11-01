@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using OranAuth.Common;
-using OranAuth.Services;
-using OranAuth.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OranAuth.Common;
+using OranAuth.Services;
+using OranAuth.WebApp.Models;
 
 namespace OranAuth.WebApp.Controllers
 {
@@ -14,6 +14,7 @@ namespace OranAuth.WebApp.Controllers
     public class ChangePasswordController : Controller
     {
         private readonly IUsersService _usersService;
+
         public ChangePasswordController(IUsersService usersService)
         {
             _usersService = usersService;
@@ -22,24 +23,16 @@ namespace OranAuth.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Post([FromBody]ChangePasswordViewModel model)
+        public async Task<IActionResult> Post([FromBody] ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = await _usersService.GetCurrentUserAsync();
-            if (user == null)
-            {
-                return BadRequest("NotFound");
-            }
+            if (user == null) return BadRequest("NotFound");
 
-            var (Succeeded, Error) = await _usersService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (Succeeded)
-            {
-                return Ok();
-            }
+            var (Succeeded, Error) =
+                await _usersService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (Succeeded) return Ok();
 
             return BadRequest(Error);
         }

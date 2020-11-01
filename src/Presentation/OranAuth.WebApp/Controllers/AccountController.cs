@@ -1,13 +1,13 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
 using OranAuth.DomainClasses;
 using OranAuth.Services;
 using OranAuth.WebApp.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
 
 namespace OranAuth.WebApp.Controllers
 {
@@ -15,11 +15,11 @@ namespace OranAuth.WebApp.Controllers
     [EnableCors("CorsPolicy")]
     public class AccountController : Controller
     {
-        private readonly IUsersService _usersService;
-        private readonly ITokenStoreService _tokenStoreService;
-        private readonly IUnitOfWork _uow;
         private readonly IAntiForgeryCookieService _antiforgery;
         private readonly ITokenFactoryService _tokenFactoryService;
+        private readonly ITokenStoreService _tokenStoreService;
+        private readonly IUnitOfWork _uow;
+        private readonly IUsersService _usersService;
 
         public AccountController(
             IUsersService usersService,
@@ -47,18 +47,12 @@ namespace OranAuth.WebApp.Controllers
         [AllowAnonymous]
         [IgnoreAntiforgeryToken]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Login([FromBody]  User loginUser)
+        public async Task<IActionResult> Login([FromBody] User loginUser)
         {
-            if (loginUser == null)
-            {
-                return BadRequest("user is not set.");
-            }
+            if (loginUser == null) return BadRequest("user is not set.");
 
             var user = await _usersService.FindUserAsync(loginUser.Username, loginUser.Password);
-            if (user?.IsActive != true)
-            {
-                return Unauthorized();
-            }
+            if (user?.IsActive != true) return Unauthorized();
 
             var result = await _tokenFactoryService.CreateJwtTokensAsync(user);
             await _tokenStoreService.AddUserTokenAsync(user, result.RefreshTokenSerial, result.AccessToken, null);
@@ -66,40 +60,35 @@ namespace OranAuth.WebApp.Controllers
 
             _antiforgery.RegenerateAntiForgeryCookies(result.Claims);
 
-            return Ok(new { access_token = result.AccessToken, refresh_token = result.RefreshToken });
+            return Ok(new {access_token = result.AccessToken, refresh_token = result.RefreshToken});
         }
 
         [AllowAnonymous]
         [IgnoreAntiforgeryToken]
         [HttpPost("[action]")]
-        public async Task<IActionResult> RefreshToken([FromBody]Token model)
+        public async Task<IActionResult> RefreshToken([FromBody] Token model)
         {
             var refreshTokenValue = model.RefreshToken;
-            if (string.IsNullOrWhiteSpace(refreshTokenValue))
-            {
-                return BadRequest("refreshToken is not set.");
-            }
+            if (string.IsNullOrWhiteSpace(refreshTokenValue)) return BadRequest("refreshToken is not set.");
 
             var token = await _tokenStoreService.FindTokenAsync(refreshTokenValue);
-            if (token == null)
-            {
-                return Unauthorized();
-            }
+            if (token == null) return Unauthorized();
 
             var result = await _tokenFactoryService.CreateJwtTokensAsync(token.User);
-            await _tokenStoreService.AddUserTokenAsync(token.User, result.RefreshTokenSerial, result.AccessToken, _tokenFactoryService.GetRefreshTokenSerial(refreshTokenValue));
+            await _tokenStoreService.AddUserTokenAsync(token.User, result.RefreshTokenSerial, result.AccessToken,
+                _tokenFactoryService.GetRefreshTokenSerial(refreshTokenValue));
             await _uow.SaveChangesAsync();
 
             _antiforgery.RegenerateAntiForgeryCookies(result.Claims);
 
-            return Ok(new { access_token = result.AccessToken, refresh_token = result.RefreshToken });
+            return Ok(new {access_token = result.AccessToken, refresh_token = result.RefreshToken});
         }
 
         [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<bool> Logout(string refreshToken)
         {
-            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var claimsIdentity = User.Identity as ClaimsIdentity;
             var userIdValue = claimsIdentity.FindFirst(ClaimTypes.UserData)?.Value;
 
             // The Jwt implementation does not support "revoke OAuth token" (logout) by design.
@@ -112,17 +101,19 @@ namespace OranAuth.WebApp.Controllers
             return true;
         }
 
-        [HttpGet("[action]"), HttpPost("[action]")]
+        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public bool IsAuthenticated()
         {
             return User.Identity.IsAuthenticated;
         }
 
-        [HttpGet("[action]"), HttpPost("[action]")]
+        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public IActionResult GetUserInfo()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            return Json(new { Username = claimsIdentity.Name });
+            return Json(new {Username = claimsIdentity.Name});
         }
     }
 }

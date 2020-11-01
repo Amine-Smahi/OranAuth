@@ -1,7 +1,7 @@
-using OranAuth.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using OranAuth.Services;
 
 namespace OranAuth.WebApp.Controllers
 {
@@ -16,7 +16,7 @@ namespace OranAuth.WebApp.Controllers
             {
                 Id = 1,
                 Title = "Hello from My Protected Editors Controller! [Authorize(Policy = CustomRoles.Editor)]",
-                Username = this.User.Identity.Name
+                Username = User.Identity.Name
             });
         }
     }

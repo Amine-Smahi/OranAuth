@@ -1,10 +1,10 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
 using OranAuth.DomainClasses;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace OranAuth.Services
 {
@@ -17,8 +17,8 @@ namespace OranAuth.Services
 
     public class RolesService : IRolesService
     {
-        private readonly IUnitOfWork _uow;
         private readonly DbSet<Role> _roles;
+        private readonly IUnitOfWork _uow;
         private readonly DbSet<User> _users;
 
         public RolesService(IUnitOfWork uow)
@@ -33,9 +33,9 @@ namespace OranAuth.Services
         public Task<List<Role>> FindUserRolesAsync(int userId)
         {
             var userRolesQuery = from role in _roles
-                                 from userRoles in role.UserRoles
-                                 where userRoles.UserId == userId
-                                 select role;
+                from userRoles in role.UserRoles
+                where userRoles.UserId == userId
+                select role;
 
             return userRolesQuery.OrderBy(x => x.Name).ToListAsync();
         }
@@ -43,10 +43,10 @@ namespace OranAuth.Services
         public async Task<bool> IsUserInRoleAsync(int userId, string roleName)
         {
             var userRolesQuery = from role in _roles
-                                 where role.Name == roleName
-                                 from user in role.UserRoles
-                                 where user.UserId == userId
-                                 select role;
+                where role.Name == roleName
+                from user in role.UserRoles
+                where user.UserId == userId
+                select role;
             var userRole = await userRolesQuery.FirstOrDefaultAsync();
             return userRole != null;
         }
@@ -54,11 +54,11 @@ namespace OranAuth.Services
         public Task<List<User>> FindUsersInRoleAsync(string roleName)
         {
             var roleUserIdsQuery = from role in _roles
-                                   where role.Name == roleName
-                                   from user in role.UserRoles
-                                   select user.UserId;
+                where role.Name == roleName
+                from user in role.UserRoles
+                select user.UserId;
             return _users.Where(user => roleUserIdsQuery.Contains(user.Id))
-                         .ToListAsync();
+                .ToListAsync();
         }
     }
 }

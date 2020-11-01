@@ -3,10 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using OranAuth.Common;
-using OranAuth.DataLayer.Context;
-using OranAuth.DomainClasses;
-using OranAuth.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using OranAuth.Common;
+using OranAuth.DataLayer.Context;
+using OranAuth.DomainClasses;
+using OranAuth.Services;
 
 namespace OranAuth.IoCConfig
 {
@@ -23,10 +23,7 @@ namespace OranAuth.IoCConfig
         public static void AddCustomAntiforgery(this IServiceCollection services)
         {
             services.AddAntiforgery(x => x.HeaderName = "X-XSRF-TOKEN");
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
         }
 
         public static void AddCustomCors(this IServiceCollection services)
@@ -35,10 +32,11 @@ namespace OranAuth.IoCConfig
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                        .WithOrigins("http://localhost:4200") //Note:  The URL must be specified without a trailing slash (/).
+                        .WithOrigins(
+                            "http://localhost:4200") //Note:  The URL must be specified without a trailing slash (/).
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .SetIsOriginAllowed((host) => true)
+                        .SetIsOriginAllowed(host => true)
                         .AllowCredentials());
             });
         }
@@ -71,7 +69,8 @@ namespace OranAuth.IoCConfig
                         ValidateIssuer = false, // TODO: change this to avoid forwarding attacks
                         ValidAudience = configuration["BearerTokens:Audience"], // site that consumes the token
                         ValidateAudience = false, // TODO: change this to avoid forwarding attacks
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["BearerTokens:Key"])),
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["BearerTokens:Key"])),
                         ValidateIssuerSigningKey = true, // verify signature to avoid tampering
                         ValidateLifetime = true, // validate the expiration
                         ClockSkew = TimeSpan.Zero // tolerance for the expiration date
@@ -80,22 +79,22 @@ namespace OranAuth.IoCConfig
                     {
                         OnAuthenticationFailed = context =>
                         {
-                            var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(JwtBearerEvents));
+                            var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+                                .CreateLogger(nameof(JwtBearerEvents));
                             logger.LogError("Authentication failed.", context.Exception);
                             return Task.CompletedTask;
                         },
                         OnTokenValidated = context =>
                         {
-                            var tokenValidatorService = context.HttpContext.RequestServices.GetRequiredService<ITokenValidatorService>();
+                            var tokenValidatorService = context.HttpContext.RequestServices
+                                .GetRequiredService<ITokenValidatorService>();
                             return tokenValidatorService.ValidateAsync(context);
                         },
-                        OnMessageReceived = context =>
-                        {
-                            return Task.CompletedTask;
-                        },
+                        OnMessageReceived = context => { return Task.CompletedTask; },
                         OnChallenge = context =>
                         {
-                            var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(JwtBearerEvents));
+                            var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>()
+                                .CreateLogger(nameof(JwtBearerEvents));
                             logger.LogError("OnChallenge error", context.Error, context.ErrorDescription);
                             return Task.CompletedTask;
                         }
@@ -103,20 +102,21 @@ namespace OranAuth.IoCConfig
                 });
         }
 
-        public static void AddCustomDbContext(this IServiceCollection services, IConfiguration configuration, Assembly startupAssembly)
+        public static void AddCustomDbContext(this IServiceCollection services, IConfiguration configuration,
+            Assembly startupAssembly)
         {
-            string projectDir = ServerPath.GetProjectPath(startupAssembly);
+            var projectDir = ServerPath.GetProjectPath(startupAssembly);
             var connectionString = configuration.GetConnectionString("DefaultConnection")
-                                                .Replace("|DataDirectory|", Path.Combine(projectDir, "wwwroot", "app_data"));
+                .Replace("|DataDirectory|", Path.Combine(projectDir, "wwwroot", "app_data"));
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(connectionString,
-                        serverDbContextOptionsBuilder =>
-                        {
-                            var minutes = (int)TimeSpan.FromMinutes(3).TotalSeconds;
-                            serverDbContextOptionsBuilder.CommandTimeout(minutes);
-                            serverDbContextOptionsBuilder.EnableRetryOnFailure();
-                        });
+                    serverDbContextOptionsBuilder =>
+                    {
+                        var minutes = (int) TimeSpan.FromMinutes(3).TotalSeconds;
+                        serverDbContextOptionsBuilder.CommandTimeout(minutes);
+                        serverDbContextOptionsBuilder.EnableRetryOnFailure();
+                    });
             });
         }
 
@@ -137,13 +137,15 @@ namespace OranAuth.IoCConfig
         public static void AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions<BearerTokensOptions>()
-                                .Bind(configuration.GetSection("BearerTokens"))
-                                .Validate(bearerTokens =>
-                                {
-                                    return bearerTokens.AccessTokenExpirationMinutes < bearerTokens.RefreshTokenExpirationMinutes;
-                                }, "RefreshTokenExpirationMinutes is less than AccessTokenExpirationMinutes. Obtaining new tokens using the refresh token should happen only if the access token has expired.");
+                .Bind(configuration.GetSection("BearerTokens"))
+                .Validate(
+                    bearerTokens =>
+                    {
+                        return bearerTokens.AccessTokenExpirationMinutes < bearerTokens.RefreshTokenExpirationMinutes;
+                    },
+                    "RefreshTokenExpirationMinutes is less than AccessTokenExpirationMinutes. Obtaining new tokens using the refresh token should happen only if the access token has expired.");
             services.AddOptions<ApiSettings>()
-                    .Bind(configuration.GetSection("ApiSettings"));
+                .Bind(configuration.GetSection("ApiSettings"));
         }
     }
 }
