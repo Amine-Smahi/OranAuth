@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 using OranAuth.Services;
 using OranAuth.WebApp.Models;
 

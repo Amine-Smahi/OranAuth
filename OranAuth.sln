@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.Services", "src\Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{AF146412-479E-4A0F-85D0-DB1AEF71F605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.DomainClasses", "src\Domain\OranAuth.DomainClasses\OranAuth.DomainClasses.csproj", "{905B7F7D-1ABB-40A5-AF89-15284DFF03D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OranAuth.Domain", "src\Domain\OranAuth.Domain\OranAuth.Domain.csproj", "{905B7F7D-1ABB-40A5-AF89-15284DFF03D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{893F7455-5C9E-4E8A-9CE7-7AEC5AC0823B}"
 EndProject

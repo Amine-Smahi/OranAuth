@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OranAuth.DomainClasses
+namespace OranAuth.Domain
 {
     public class Role
     {

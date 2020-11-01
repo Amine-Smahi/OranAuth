@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 
 namespace OranAuth.Services
 {

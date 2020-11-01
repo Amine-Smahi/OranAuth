@@ -1,6 +1,6 @@
 using System;
 
-namespace OranAuth.DomainClasses
+namespace OranAuth.Domain
 {
     public class UserToken
     {

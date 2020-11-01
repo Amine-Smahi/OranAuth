@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 
 namespace OranAuth.DataLayer.Context
 {

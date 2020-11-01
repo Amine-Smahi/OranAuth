@@ -3,8 +3,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\OranAuth.DomainClasses\OranAuth.DomainClasses.csproj" />
     <ProjectReference Include="..\..\Common\OranAuth.Common\OranAuth.Common.csproj" />
+    <ProjectReference Include="..\..\Domain\OranAuth.Domain\OranAuth.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />

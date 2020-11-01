@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 
 namespace OranAuth.Services
 {

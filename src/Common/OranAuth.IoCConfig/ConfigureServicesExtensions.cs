@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.Common;
 using OranAuth.DataLayer.Context;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 using OranAuth.Services;
 
 namespace OranAuth.IoCConfig

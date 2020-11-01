@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.Common;
-using OranAuth.DomainClasses;
+using OranAuth.Domain;
 
 namespace OranAuth.Services
 {

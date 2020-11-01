@@ -19,7 +19,7 @@ namespace OranAuth.DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OranAuth.DomainClasses.Role", b =>
+            modelBuilder.Entity("OranAuth.Domain.Role", b =>
             {
                 b.Property<int>("Id")
                     .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace OranAuth.DataLayer.Migrations
                 b.ToTable("Roles");
             });
 
-            modelBuilder.Entity("OranAuth.DomainClasses.User", b =>
+            modelBuilder.Entity("OranAuth.Domain.User", b =>
             {
                 b.Property<int>("Id")
                     .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace OranAuth.DataLayer.Migrations
                 b.ToTable("Users");
             });
 
-            modelBuilder.Entity("OranAuth.DomainClasses.UserRole", b =>
+            modelBuilder.Entity("OranAuth.Domain.UserRole", b =>
             {
                 b.Property<int>("UserId")
                     .HasColumnType("int");
@@ -95,7 +95,7 @@ namespace OranAuth.DataLayer.Migrations
                 b.ToTable("UserRoles");
             });
 
-            modelBuilder.Entity("OranAuth.DomainClasses.UserToken", b =>
+            modelBuilder.Entity("OranAuth.Domain.UserToken", b =>
             {
                 b.Property<int>("Id")
                     .ValueGeneratedOnAdd()
@@ -131,24 +131,24 @@ namespace OranAuth.DataLayer.Migrations
                 b.ToTable("UserTokens");
             });
 
-            modelBuilder.Entity("OranAuth.DomainClasses.UserRole", b =>
+            modelBuilder.Entity("OranAuth.Domain.UserRole", b =>
             {
-                b.HasOne("OranAuth.DomainClasses.Role", "Role")
+                b.HasOne("OranAuth.Domain.Role", "Role")
                     .WithMany("UserRoles")
                     .HasForeignKey("RoleId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("OranAuth.DomainClasses.User", "User")
+                b.HasOne("OranAuth.Domain.User", "User")
                     .WithMany("UserRoles")
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("OranAuth.DomainClasses.UserToken", b =>
+            modelBuilder.Entity("OranAuth.Domain.UserToken", b =>
             {
-                b.HasOne("OranAuth.DomainClasses.User", "User")
+                b.HasOne("OranAuth.Domain.User", "User")
                     .WithMany("UserTokens")
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
