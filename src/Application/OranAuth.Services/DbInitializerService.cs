@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OranAuth.Common;
-using OranAuth.DataLayer.Context;
+using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 
 namespace OranAuth.Services

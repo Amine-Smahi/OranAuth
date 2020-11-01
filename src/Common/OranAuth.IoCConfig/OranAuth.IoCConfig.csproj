@@ -9,6 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\OranAuth.Services\OranAuth.Services.csproj" />
     <ProjectReference Include="..\..\Domain\OranAuth.Domain\OranAuth.Domain.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\OranAuth.DataLayer\OranAuth.DataLayer.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\OranAuth.Infrastructure\OranAuth.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

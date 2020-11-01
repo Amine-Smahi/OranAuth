@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.Common;
-using OranAuth.DataLayer.Context;
+using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 using OranAuth.Services;
 

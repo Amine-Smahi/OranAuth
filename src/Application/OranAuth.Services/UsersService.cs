@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OranAuth.Common;
-using OranAuth.DataLayer.Context;
+using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 
 namespace OranAuth.Services
