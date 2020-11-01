@@ -20,7 +20,7 @@ namespace OranAuth.Tests.Integration
             var client = TestsHttpClient.Instance;
 
             // Act
-            var token = await doLoginAsync(client);
+            var token = await DoLoginAsync(client);
 
             // Assert
             token.Should().NotBeNull();
@@ -35,7 +35,7 @@ namespace OranAuth.Tests.Integration
             var client = TestsHttpClient.Instance;
 
             // Act
-            var token = await doLoginAsync(client);
+            var token = await DoLoginAsync(client);
 
             // Assert
             token.Should().NotBeNull();
@@ -57,10 +57,10 @@ namespace OranAuth.Tests.Integration
             apiResponse.Title.Should().Be("Hello from My Protected Controller! [Authorize]");
         }
 
-        private static async Task<Token> doLoginAsync(HttpClient client)
+        private static async Task<Token> DoLoginAsync(HttpClient client)
         {
             const string loginUrl = "/api/account/login";
-            var user = new {Username = "Vahid", Password = "1234"};
+            var user = new {Username = "Amine", Password = "1234"};
             var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Post, loginUrl)
             {
                 Content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json")

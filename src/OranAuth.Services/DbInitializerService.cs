@@ -66,8 +66,8 @@ namespace OranAuth.Services
                     {
                         var adminUser = new User
                         {
-                            Username = "Vahid",
-                            DisplayName = "وحيد",
+                            Username = "Amine",
+                            DisplayName = "Amine Smahi",
                             IsActive = true,
                             LastLoggedIn = null,
                             Password = _securityService.GetSha256Hash("1234"),

@@ -28,14 +28,14 @@ namespace OranAuth.Client.Console
     {
         private const string BaseAddress = "https://localhost:5001/";
 
-        private static readonly HttpClientHandler _httpClientHandler = new HttpClientHandler
+        private static readonly HttpClientHandler HttpClientHandler = new HttpClientHandler
         {
             UseCookies = true,
             UseDefaultCredentials = true,
             CookieContainer = new CookieContainer()
         };
 
-        private static readonly HttpClient _httpClient = new HttpClient(_httpClientHandler)
+        private static readonly HttpClient HttpClient = new HttpClient(HttpClientHandler)
         {
             BaseAddress = new Uri(BaseAddress)
         };
@@ -44,7 +44,7 @@ namespace OranAuth.Client.Console
         {
             var (token, appCookies) = await LoginAsync(
                 "/api/account/login",
-                "Vahid",
+                "Amine",
                 "1234");
             await CallProtectedApiAsync("/api/MyProtectedApi", token);
             var newToken = await RefreshTokenAsync("/api/account/RefreshToken", token, appCookies);
@@ -53,7 +53,7 @@ namespace OranAuth.Client.Console
         private static Dictionary<string, string> GetAntiforgeryCookies()
         {
             System.Console.WriteLine("\nGet Antiforgery Cookies:");
-            var cookies = _httpClientHandler.CookieContainer.GetCookies(new Uri(BaseAddress));
+            var cookies = HttpClientHandler.CookieContainer.GetCookies(new Uri(BaseAddress));
 
             var appCookies = new Dictionary<string, string>();
             System.Console.WriteLine("WebApp Cookies:");
@@ -73,7 +73,7 @@ namespace OranAuth.Client.Console
             System.Console.WriteLine("\nLogin:");
 
             var response =
-                await _httpClient.PostAsJsonAsync(requestUri, new User {Username = username, Password = password});
+                await HttpClient.PostAsJsonAsync(requestUri, new User {Username = username, Password = password});
             response.EnsureSuccessStatusCode();
 
             var token = await response.Content.ReadAsAsync<Token>(new[] {new JsonMediaTypeFormatter()});
@@ -86,17 +86,17 @@ namespace OranAuth.Client.Console
         }
 
         private static async Task<Token> RefreshTokenAsync(string requestUri, Token token,
-            Dictionary<string, string> appCookies)
+            IReadOnlyDictionary<string, string> appCookies)
         {
             System.Console.WriteLine("\nRefreshToken:");
 
-            if (!_httpClient.DefaultRequestHeaders.Contains("X-XSRF-TOKEN"))
+            if (!HttpClient.DefaultRequestHeaders.Contains("X-XSRF-TOKEN"))
                 // this is necessary for [AutoValidateAntiforgeryTokenAttribute] and all of the 'POST' requests
-                _httpClient.DefaultRequestHeaders.Add("X-XSRF-TOKEN", appCookies["XSRF-TOKEN"]);
+                HttpClient.DefaultRequestHeaders.Add("X-XSRF-TOKEN", appCookies["XSRF-TOKEN"]);
             // this is necessary to populate the this.HttpContext.User object automatically
-            _httpClient.DefaultRequestHeaders.Authorization =
+            HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token.AccessToken);
-            var response = await _httpClient.PostAsJsonAsync(requestUri, new {refreshToken = token.RefreshToken});
+            var response = await HttpClient.PostAsJsonAsync(requestUri, new {refreshToken = token.RefreshToken});
             response.EnsureSuccessStatusCode();
 
             var newToken = await response.Content.ReadAsAsync<Token>(new[] {new JsonMediaTypeFormatter()});
@@ -109,9 +109,9 @@ namespace OranAuth.Client.Console
         private static async Task CallProtectedApiAsync(string requestUri, Token token)
         {
             System.Console.WriteLine("\nCall ProtectedApi:");
-            _httpClient.DefaultRequestHeaders.Authorization =
+            HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token.AccessToken);
-            var response = await _httpClient.GetAsync(requestUri);
+            var response = await HttpClient.GetAsync(requestUri);
             var message = await response.Content.ReadAsStringAsync();
             System.Console.WriteLine("URL response: " + message);
         }
