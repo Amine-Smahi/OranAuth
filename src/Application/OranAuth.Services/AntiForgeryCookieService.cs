@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Security.Claims;
-using OranAuth.Common;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using OranAuth.Common;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.hi
 {
     public interface IAntiForgeryCookieService
     {
