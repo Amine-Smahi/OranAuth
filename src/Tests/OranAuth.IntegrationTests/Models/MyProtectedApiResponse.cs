@@ -1,4 +1,4 @@
-namespace OranAuth.IntegrationTests
+namespace OranAuth.IntegrationTests.Models
 {
     public class MyProtectedApiResponse
     {

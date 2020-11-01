@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace OranAuth.IntegrationTests
+namespace OranAuth.IntegrationTests.Models
 {
     public class Token
     {

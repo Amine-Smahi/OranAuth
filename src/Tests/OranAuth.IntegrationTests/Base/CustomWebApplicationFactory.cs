@@ -1,11 +1,11 @@
-using OranAuth.WebApp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using OranAuth.WebApp;
 
-namespace OranAuth.IntegrationTests
+namespace OranAuth.IntegrationTests.Base
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {

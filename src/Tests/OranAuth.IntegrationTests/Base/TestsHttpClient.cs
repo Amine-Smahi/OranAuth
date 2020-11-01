@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Net.Http;
+using System.Threading;
 
-namespace OranAuth.IntegrationTests
+namespace OranAuth.IntegrationTests.Base
 {
     public static class TestsHttpClient
     {
