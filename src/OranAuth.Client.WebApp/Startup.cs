@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.IoC;
-using OranAuth.Services;
 using OranAuth.Services.Services;
 
 namespace OranAuth.Client.WebApp
@@ -21,7 +20,7 @@ namespace OranAuth.Client.WebApp
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

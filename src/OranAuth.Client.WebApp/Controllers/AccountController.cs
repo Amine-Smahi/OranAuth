@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OranAuth.Client.WebApp.Models;
 using OranAuth.Common;
-using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
-using OranAuth.Services;
+using OranAuth.Infrastructure.Context;
 using OranAuth.Services.Services;
 
 namespace OranAuth.Client.WebApp.Controllers
@@ -114,7 +113,7 @@ namespace OranAuth.Client.WebApp.Controllers
         public IActionResult GetUserInfo()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            return Json(new {Username = claimsIdentity.Name});
+            return Json(new {Username = claimsIdentity?.Name});
         }
     }
 }

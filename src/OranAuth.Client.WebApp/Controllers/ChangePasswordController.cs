@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OranAuth.Client.WebApp.Models;
 using OranAuth.Common;
-using OranAuth.Services;
 using OranAuth.Services.Services;
 
 namespace OranAuth.Client.WebApp.Controllers
@@ -31,11 +30,11 @@ namespace OranAuth.Client.WebApp.Controllers
             var user = await _usersService.GetCurrentUserAsync();
             if (user == null) return BadRequest("NotFound");
 
-            var (Succeeded, Error) =
+            var (succeeded, error) =
                 await _usersService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (Succeeded) return Ok();
+            if (succeeded) return Ok();
 
-            return BadRequest(Error);
+            return BadRequest(error);
         }
     }
 }
