@@ -15,6 +15,7 @@ using OranAuth.Common;
 using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 using OranAuth.Services;
+using OranAuth.Services.Services;
 
 namespace OranAuth.IoC
 {
@@ -46,9 +47,9 @@ namespace OranAuth.IoC
             // Only needed for custom roles.
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(CustomRoles.Admin, policy => policy.RequireRole(CustomRoles.Admin));
-                options.AddPolicy(CustomRoles.User, policy => policy.RequireRole(CustomRoles.User));
-                options.AddPolicy(CustomRoles.Editor, policy => policy.RequireRole(CustomRoles.Editor));
+                options.AddPolicy(Roles.Admin, policy => policy.RequireRole(Roles.Admin));
+                options.AddPolicy(Roles.User, policy => policy.RequireRole(Roles.User));
+                options.AddPolicy(Roles.Editor, policy => policy.RequireRole(Roles.Editor));
             });
 
             // Needed for jwt auth.

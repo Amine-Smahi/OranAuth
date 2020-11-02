@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using OranAuth.Common;
 using OranAuth.Domain;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public class JwtTokensData
     {

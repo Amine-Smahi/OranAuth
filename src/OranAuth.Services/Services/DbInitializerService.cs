@@ -3,10 +3,10 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OranAuth.Common;
-using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
+using OranAuth.Infrastructure.Context;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface IDbInitializerService
     {
@@ -52,8 +52,8 @@ namespace OranAuth.Services
                 using (var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>())
                 {
                     // Add default roles
-                    var adminRole = new Role {Name = CustomRoles.Admin};
-                    var userRole = new Role {Name = CustomRoles.User};
+                    var adminRole = new Role {Name = Roles.Admin};
+                    var userRole = new Role {Name = Roles.User};
                     if (!context.Roles.Any())
                     {
                         context.Add(adminRole);

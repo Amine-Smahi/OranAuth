@@ -7,7 +7,7 @@ namespace OranAuth.Client.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
-    [Authorize(Policy = CustomRoles.Editor)]
+    [Authorize(Policy = Roles.Editor)]
     public class MyProtectedEditorsApiController : Controller
     {
         public IActionResult Get()

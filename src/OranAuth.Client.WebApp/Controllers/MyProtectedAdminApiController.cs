@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using OranAuth.Common;
 using OranAuth.Services;
+using OranAuth.Services.Services;
 
 namespace OranAuth.Client.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
-    [Authorize(Policy = CustomRoles.Admin)]
+    [Authorize(Policy = Roles.Admin)]
     public class MyProtectedAdminApiController : Controller
     {
         private readonly IUsersService _usersService;

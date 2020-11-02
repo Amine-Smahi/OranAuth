@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OranAuth.Common;
-using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
+using OranAuth.Infrastructure.Context;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface IRolesService
     {

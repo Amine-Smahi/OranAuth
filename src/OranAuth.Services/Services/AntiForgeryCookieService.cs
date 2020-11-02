@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using OranAuth.Common;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface IAntiForgeryCookieService
     {

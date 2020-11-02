@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface ISecurityService
     {

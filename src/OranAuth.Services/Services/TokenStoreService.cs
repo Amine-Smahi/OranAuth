@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OranAuth.Common;
-using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
+using OranAuth.Infrastructure.Context;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface ITokenStoreService
     {

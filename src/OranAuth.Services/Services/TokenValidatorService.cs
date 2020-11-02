@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OranAuth.Common;
 
-namespace OranAuth.Services
+namespace OranAuth.Services.Services
 {
     public interface ITokenValidatorService
     {

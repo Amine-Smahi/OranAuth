@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.IoC;
 using OranAuth.Services;
+using OranAuth.Services.Services;
 
 namespace OranAuth.Client.WebApp
 {
