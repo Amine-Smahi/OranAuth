@@ -1,4 +1,4 @@
-namespace OranAuth.Services
+namespace OranAuth.Services.Constants
 {
     public static class Roles
     {

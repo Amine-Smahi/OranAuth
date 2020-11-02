@@ -15,19 +15,21 @@ using OranAuth.Common;
 using OranAuth.Infrastructure.Context;
 using OranAuth.Domain;
 using OranAuth.Services;
+using OranAuth.Services.Constants;
+using OranAuth.Services.Dtos;
 using OranAuth.Services.Services;
 
 namespace OranAuth.IoC
 {
     public static class ConfigureServicesExtensions
     {
-        public static void AddCustomAntiforgery(this IServiceCollection services)
+        public static void AddOranAuthAntiforgery(this IServiceCollection services)
         {
             services.AddAntiforgery(x => x.HeaderName = "X-XSRF-TOKEN");
             services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
         }
 
-        public static void AddCustomCors(this IServiceCollection services)
+        public static void AddOranAuthCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
@@ -42,7 +44,7 @@ namespace OranAuth.IoC
             });
         }
 
-        public static void AddCustomJwtBearer(this IServiceCollection services, IConfiguration configuration)
+        public static void AddOranAuthJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
             // Only needed for custom roles.
             services.AddAuthorization(options =>
@@ -103,7 +105,7 @@ namespace OranAuth.IoC
                 });
         }
 
-        public static void AddCustomDbContext(this IServiceCollection services, IConfiguration configuration,
+        public static void AddOranAuthDbContext(this IServiceCollection services, IConfiguration configuration,
             Assembly startupAssembly)
         {
             var projectDir = ServerPath.GetProjectPath(startupAssembly);
@@ -121,7 +123,7 @@ namespace OranAuth.IoC
             });
         }
 
-        public static void AddCustomServices(this IServiceCollection services)
+        public static void AddOranAuthServices(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAntiForgeryCookieService, AntiForgeryCookieService>();
@@ -135,7 +137,7 @@ namespace OranAuth.IoC
             services.AddScoped<ITokenFactoryService, TokenFactoryService>();
         }
 
-        public static void AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
+        public static void AddOranAuthOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions<BearerTokensOptions>()
                 .Bind(configuration.GetSection("BearerTokens"))

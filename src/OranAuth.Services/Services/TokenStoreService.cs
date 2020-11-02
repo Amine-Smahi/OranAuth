@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using OranAuth.Common;
 using OranAuth.Domain;
 using OranAuth.Infrastructure.Context;
+using OranAuth.Services.Dtos;
 
 namespace OranAuth.Services.Services
 {
@@ -107,7 +108,7 @@ namespace OranAuth.Services.Services
         public async Task RevokeUserBearerTokensAsync(string userIdValue, string refreshTokenValue)
         {
             if (!string.IsNullOrWhiteSpace(userIdValue) && int.TryParse(userIdValue, out var userId))
-                if (_configuration.Value.AllowSignoutAllUserActiveClients)
+                if (_configuration.Value.AllowSignOutAllUserActiveClients)
                     await InvalidateUserTokensAsync(userId);
 
             if (!string.IsNullOrWhiteSpace(refreshTokenValue))

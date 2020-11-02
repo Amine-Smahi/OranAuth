@@ -1,4 +1,4 @@
-namespace OranAuth.Services
+namespace OranAuth.Services.Dtos
 {
     public class BearerTokensOptions
     {
@@ -8,6 +8,6 @@ namespace OranAuth.Services
         public int AccessTokenExpirationMinutes { set; get; }
         public int RefreshTokenExpirationMinutes { set; get; }
         public bool AllowMultipleLoginsFromTheSameUser { set; get; }
-        public bool AllowSignoutAllUserActiveClients { set; get; }
+        public bool AllowSignOutAllUserActiveClients { set; get; }
     }
 }

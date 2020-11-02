@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OranAuth.Common;
 using OranAuth.Domain;
+using OranAuth.Services.Dtos;
 
 namespace OranAuth.Services.Services
 {

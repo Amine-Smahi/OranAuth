@@ -26,12 +26,12 @@ namespace OranAuth.Client.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCustomOptions(Configuration);
-            services.AddCustomServices();
-            services.AddCustomDbContext(Configuration, typeof(Startup).Assembly);
-            services.AddCustomJwtBearer(Configuration);
-            services.AddCustomCors();
-            services.AddCustomAntiforgery();
+            services.AddOranAuthOptions(Configuration);
+            services.AddOranAuthServices();
+            services.AddOranAuthDbContext(Configuration, typeof(Startup).Assembly);
+            services.AddOranAuthJwtBearer(Configuration);
+            services.AddOranAuthCors();
+            services.AddOranAuthAntiforgery();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
